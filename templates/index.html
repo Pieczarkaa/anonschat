@@ -1,0 +1,23 @@
+<script type="text/javascript" charset="utf-8" src='socketio.js'></script>
+<link rel="stylesheet" href="style.css">
+<head>
+  <body>
+    <input name="UsernameEntry" id="username" placeholder='Enter username:'>
+    </input>
+  <h1 id='usercount'>1 Users Connected
+  </h1>
+  <h4 id='newmessages'>New messages will appear here
+  </h4>
+  <h4 id='messagearea' class='messagearea'>
+  </h4>
+  <br>
+  <div class='send'>
+  <textarea name="MessageBox" id="messagebox" class="messagebox" placeholder='Message'></textarea>
+  <button onclick='sendmessage();'>Send!
+  </button>
+  </div>
+  </body>
+</head>
+<script>
+(()=>{var e=io();e.on("connect",(function(){console.log("Connected to websocket"),e.emit("connection",{data:"newconnection"})})),e.on("newmessage",(function(e){document.getElementById("newmessages").style.display="none";var n=document.getElementById("messagearea").innerHTML;document.getElementById("messagearea").innerHTML=n+"<br>"+e})),e.on("usercount",(function(e){document.getElementById("usercount").innerHTML=e+" Users Connected"})),document.getElementById("messagebox").onkeypress=function(n){var t,o;if(n||(n=window.event),"13"==(n.keyCode||n.which))return t=document.getElementById("messagebox").value,o=document.getElementById("username").value,document.getElementById("messagebox").value="",e.emit("newmessage",{message:t,username:o}),!1}})();
+</script>
